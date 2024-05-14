@@ -133,4 +133,5 @@ CORS_ALLOWED_ORIGINS = [
     ## Add the allowed origins here 
     ## For example:
     ## React app: http://localhost:3000
+    'http://localhost:5173/'
 ]

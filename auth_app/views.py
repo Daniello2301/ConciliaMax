@@ -33,6 +33,24 @@ def login(request):
 
 #################################################################################
 
+
+# Get users
+@api_view(['GET'])
+def get_users(request):
+    
+        # Get all users
+        users = User.objects.all()
+
+        if(users.count() == 0):
+            return Response({'message': 'No users'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Create a user serializer
+        serializer = UserSerializer(users, many=True)
+    
+        # Return the users
+        return Response(serializer.data)
+
+
 # Create/resgiste a new user 
 @api_view(['POST'])
 def sigup(request):
