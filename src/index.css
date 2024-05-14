@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base{
+    @font-face {
+        font-family: 'Roundo';
+        font-weight: 500;
+        src: url(./fonts/Roundo-Regular.ttf) format('ttf');
+    }
+}
