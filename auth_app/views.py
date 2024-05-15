@@ -50,6 +50,22 @@ def get_users(request):
         # Return the users
         return Response(serializer.data)
 
+#################################################################################
+
+# Get a user
+@api_view(['GET'])
+def get_user(request, user_id):
+        
+        # Get the user
+        user = get_object_or_404(User, pk=user_id)
+    
+        # Create a user serializer
+        serializer = UserSerializer(user)
+    
+        # Return the user
+        return Response(serializer.data)
+
+#################################################################################
 
 # Create/resgiste a new user 
 @api_view(['POST'])

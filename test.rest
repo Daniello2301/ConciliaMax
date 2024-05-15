@@ -21,10 +21,16 @@ Content-Type: application/json
 ###
 GET http://127.0.0.1:8000/test_token
 Content-Type: application/json
-Authorization: Token e73d3340b09a18bafd2c2209c5b1c69bb0ad6ab0
+Authorization: Token e1d62fe0ec650e4941fda0f4471de94b6dfa087b
 
 
 ###
 
 GET http://127.0.0.1:8000/all_users
+Content-Type: application/json
+
+
+###
+
+GET http://127.0.0.1:8000/user/18
 Content-Type: application/json
