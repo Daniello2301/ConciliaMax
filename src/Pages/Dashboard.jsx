@@ -1,4 +1,5 @@
 import Aside from "../Components/Aside";
+import Footer from "../Components/Footer";
 import Nav from "../Components/Nav";
 
 function Dashboard() {
@@ -263,6 +264,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
