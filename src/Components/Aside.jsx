@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 function Aside() {
   return (
     <>
@@ -8,8 +10,8 @@ function Aside() {
         <div className="h-full overflow-y-auto pb-20 flex items-center w-full">
           <ul className="space-y-2 font-medium w-full ">
             <li className="w-full border-box border-b rounded-b-lg overflow-hidden group">
-              <a
-                href="#"
+              <NavLink
+                to={""}
                 className="w-full flex items-center p-2 text-gray_light hover:bg-gray-100 group hover:text-blue_dark group-hover:border-none"
               >
                 <svg
@@ -23,11 +25,11 @@ function Aside() {
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                 </svg>
                 <span className="ms-3">Administrar</span>
-              </a>
+              </NavLink>
             </li>
             <li className="w-full border-box border-b rounded-b-lg overflow-hidden group">
-              <a
-                href="#"
+              <NavLink
+                to={"new-conciliation"}
                 className="w-full flex items-center p-2 text-gray_light hover:bg-gray-100 group hover:text-blue_dark group-hover:border-none"
               >
                 <svg
@@ -48,11 +50,11 @@ function Aside() {
                   </g>
                 </svg>
                 <span className="ms-3">Nueva Conciliacion</span>
-              </a>
+              </NavLink>
             </li>
             <li className="w-full border-box border-b rounded-b-lg overflow-hidden group">
-              <a
-                href="#"
+              <NavLink
+                to={"conciliations"}
                 className="w-full flex items-center p-2 text-gray_light hover:bg-gray-100 group hover:text-blue_dark group-hover:border-none"
               >
                 <svg
@@ -77,11 +79,11 @@ function Aside() {
                   </g>
                 </svg>
                 <span className="ms-3">Conciliaciones</span>
-              </a>
+              </NavLink>
             </li>
             <li className="w-full border-box border-b rounded-b-lg overflow-hidden group">
-              <a
-                href="#"
+              <NavLink
+                to={"history"}
                 className="w-full flex items-center p-2 text-gray_light hover:bg-gray-100 group hover:text-blue_dark group-hover:border-none"
               >
                 <svg
@@ -109,7 +111,7 @@ function Aside() {
                   </g>
                 </svg>
                 <span className="ms-3">Historial</span>
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>

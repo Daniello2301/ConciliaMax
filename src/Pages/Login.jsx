@@ -32,7 +32,7 @@ function Login() {
         text: "Has iniciado sesion correctamente",
       });
       setIsLoading(false);
-      navigate("/dashboard");
+      navigate("/home");
     } else {
       Swal.fire({
         icon: "error",

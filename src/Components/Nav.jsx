@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import logo_light from "../assets/logo_light.svg";
 import logout from "../assets/logout.svg";
@@ -9,6 +10,14 @@ function Nav() {
   const location = window.location.pathname;
 
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("/login");
+  
+  }
 
   useEffect(() => {
     localStorage.getItem("user") &&
@@ -43,13 +52,12 @@ function Nav() {
                       </Link>
                     </li>
                     <li className="flex justify-center items-center h-[30px]">
-                      <Link
-                        href="#"
+                      <button
+                        onClick={handleLogout}
                         className="hover:scale-110"
-                        aria-current="page"
                       >
                         <img className="h-[25px]" src={logout} alt="logout" />
-                      </Link>
+                      </button>
                     </li>
                   </ul>
                 </div>
