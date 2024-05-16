@@ -36,7 +36,7 @@ function Login() {
         text: "Has iniciado sesion correctamente",
       });
       setIsLoading(false);
-      navigate("/home");
+      navigate("/home/dashboard");
     } else {
       Swal.fire({
         icon: "error",

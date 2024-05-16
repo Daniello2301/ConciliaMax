@@ -1,4 +1,23 @@
+import { useState, useEffect } from "react";
+import { getBooks } from "../api/book";
+
 function ListConciliations() {
+
+  const [ dataBook, setDataBook] = useState([]);
+
+  useEffect(() => {
+
+    const getData = async () => {
+      const res = await getBooks();
+      setDataBook(res.data);
+    }
+
+    getData();
+
+  },[]);
+
+  console.log(dataBook)
+
   return (
     <>
       <div className="p-4 sm:ml-64">

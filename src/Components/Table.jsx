@@ -1,5 +1,7 @@
 function Table({ data }) {
-  if (data.length === 0) return null;
+
+  console.log(data)
+  /* if (data ==) return null;
   const rows = Object.keys(data[0]);
 
   const dataTable = data.map((e) => {
@@ -7,11 +9,12 @@ function Table({ data }) {
       e.valor = e.valor.split("$")[1];
     }
     return Object.values(e);
-  });
+  }); */
+
 
   return (
     <>
-      <table
+     {/*  <table
         className="m-auto px-4 text-xs        
         text-left rtl:text-right text-gray-500 "
       >
@@ -60,7 +63,7 @@ function Table({ data }) {
             );
           })}
         </tbody>
-      </table>
+      </table> */}
     </>
   );
 }
