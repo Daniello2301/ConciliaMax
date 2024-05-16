@@ -29,7 +29,7 @@ function Register() {
         text: "Has sido registrado correctamente",
       });
       setIsLoading(false);
-      navigate("/home");
+      navigate("/login");
     } else {
       Swal.fire({
         icon: "error",

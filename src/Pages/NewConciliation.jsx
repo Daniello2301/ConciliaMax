@@ -1,44 +1,25 @@
-
+import InputTableBank from "../Components/InputTableBank";
+import InputTableBook from "../Components/InputTableBook";
+import InputsHeaderConciliation from "../Components/InputsHeaderConciliation";
 
 function NewConciliation() {
   return (
     <>
-      <div className="p-4 sm:ml-64">
-        <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-20">
-          <div className="grid grid-cols-3 gap-4 mb-4">
-            <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500"></p>
-            </div>
-            <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500"></p>
-            </div>
-            <div className="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500"></p>
-            </div>
-          </div>
-          <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-            <p className="text-2xl text-gray-400 dark:text-gray-500">
-              New Conciliation
-            </p>
-          </div>
+      <div className="p-4 sm:ml-64 h-full">
+        <div className="p-4 border-2 h-full border-green_primary  border-dashed rounded-md mt-20">
+          <InputsHeaderConciliation />
           <div className="grid grid-cols-2 gap-4 mb-4">
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500"></p>
+            <div className="flex items-center justify-center bg-gray-50 ">
+              <InputTableBook />
             </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500"></p>
-            </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500"></p>
-            </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500"></p>
+            <div className="flex items-center justify-center bg-gray-50 ">
+              <InputTableBank />
             </div>
           </div>
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default NewConciliation
+export default NewConciliation;
