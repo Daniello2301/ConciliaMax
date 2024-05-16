@@ -25,12 +25,14 @@ SECRET_KEY = 'django-insecure-44z6vjnn9=i7dvy+q%xre-*1t#h14bwptn6dl$y3ltpo@799&m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,8 +42,8 @@ INSTALLED_APPS = [
 
     'corsheaders',
 
-    'rest_framework',
-    'rest_framework.authtoken'
+    'coreapi',
+    'conciliations'
 ]
 
 MIDDLEWARE = [
@@ -135,3 +137,7 @@ CORS_ALLOWED_ORIGINS = [
     ## React app: http://localhost:3000
     'http://localhost:5173'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+}
