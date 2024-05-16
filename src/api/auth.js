@@ -8,3 +8,12 @@ export const login = async (user) => {
         return error.response;
     }
 }
+
+export const signup = async (user) => {
+    try {
+        const res = await axiosInstance.post("/signup", user);
+        return res;
+    } catch (error) {
+        return error.response;
+    }
+}
