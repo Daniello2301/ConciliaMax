@@ -4,11 +4,11 @@ from django.db import models
 
 class BookData(models.Model):
     id= models.AutoField(primary_key=True)
-    date = models.DateField()
-    type = models.CharField(max_length=50)
-    documentNumber = models.CharField(max_length=50)
-    description = models.CharField(max_length=100)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.CharField(max_length=50,null=True)
+    type = models.CharField(max_length=50,null=True)
+    documentNumber = models.CharField(max_length=50, null=True)
+    description = models.CharField(max_length=100,null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     def __str__(self):
         return f'{self.id} - {self.date} - {self.type} - {self.documentNumber} - {self.description} - {self.amount}'
@@ -21,11 +21,11 @@ class BookData(models.Model):
 
 class BankData(models.Model):
     id = models.AutoField(primary_key=True)
-    date = models.DateField()
-    type = models.CharField(max_length=50)
-    documentNumber = models.CharField(max_length=50)
-    description = models.CharField(max_length=100)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.CharField(max_length=50,null=True)
+    type = models.CharField(max_length=50,null=True)
+    documentNumber = models.CharField(max_length=50, null=True)
+    description = models.CharField(max_length=100,null=False)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     def __str__(self):
         return f'{self.id} - {self.date} - {self.type} - {self.documentNumber} - {self.description} - {self.amount}'
@@ -39,10 +39,10 @@ class BankData(models.Model):
 
 class Conciliation(models.Model):
     id = models.AutoField(primary_key=True)
-    accountNumber = models.BigIntegerField()
-    date = models.DateField()
-    bank = models.TextField()
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    accountNumber = models.BigIntegerField(null=True)
+    date = models.CharField(max_length=50,null=True)
+    bank = models.CharField(max_length=50,null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     BookId = models.ForeignKey(BookData, on_delete=models.CASCADE)
     BankId = models.ForeignKey(BankData, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -60,9 +60,9 @@ class Conciliation(models.Model):
 
 class ConciliationHistory(models.Model):
     id = models.AutoField(primary_key=True)
-    date = models.DateField()
-    status = models.CharField(max_length=50)
-    description = models.TextField()
+    date = models.CharField(max_length=50,null=True)
+    status = models.CharField(max_length=50, null=True)
+    description = models.CharField(max_length=100,null=True)
     ConciliationId = models.ForeignKey(Conciliation, on_delete=models.CASCADE)
 
     def __str__(self):
