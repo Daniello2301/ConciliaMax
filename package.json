@@ -10,10 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "apexcharts": "^3.49.1",
     "axios": "^1.6.8",
     "flowbite": "^2.3.0",
     "papaparse": "^5.4.1",
     "react": "^18.2.0",
+    "react-apexcharts": "^1.4.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.4",
     "react-hot-toast": "^2.4.1",

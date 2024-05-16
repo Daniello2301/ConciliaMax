@@ -1,18 +1,19 @@
 import { NavLink } from "react-router-dom";
 
 function Aside() {
+
   return (
     <>
       <aside
         id="logo-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen pt-32  transition-transform bg-blue_dark"
+        className="fixed top-0 left-0 z-40 w-56 h-screen pt-32  transition-transform bg-blue_dark"
       >
         <div className="h-full overflow-y-auto pb-20 flex items-center w-full">
           <ul className="space-y-2 font-medium w-full ">
             <li className="w-full border-box border-b rounded-b-lg overflow-hidden group">
               <NavLink
-                to={""}
-                className="w-full flex items-center p-2 text-gray_light hover:bg-gray-100 group hover:text-blue_dark group-hover:border-none"
+                to={"dashboard"}
+                className="w-full flex items-center p-2 text-gray_light hover:bg-gray-100 group hover:text-blue_dark group-hover:border-none active:bg-gray-100 active:text-blue_dark"
               >
                 <svg
                   className="w-5 h-5 text-gray_light transition duration-75  group-hover:text-blue_dark"
@@ -27,10 +28,10 @@ function Aside() {
                 <span className="ms-3">Administrar</span>
               </NavLink>
             </li>
-            <li className="w-full border-box border-b rounded-b-lg overflow-hidden group">
+            <li className="w-full border-box border-b rounded-b-lg overflow-hidden group ">
               <NavLink
                 to={"new-conciliation"}
-                className="w-full flex items-center p-2 text-gray_light hover:bg-gray-100 group hover:text-blue_dark group-hover:border-none"
+                className="w-full flex items-center p-2 text-gray_light hover:bg-gray-100 group hover:text-blue_dark group-hover:border-none "
               >
                 <svg
                   className="w-5 h-5 text-gray_light transition duration-75  group-hover:text-blue_dark"

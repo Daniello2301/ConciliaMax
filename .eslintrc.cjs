@@ -24,5 +24,6 @@ module.exports = {
     ],
     "no-extend-native": "off",
     "no-restricted-imports": "off",
+    "react/prop-types": "off"
   },
 };

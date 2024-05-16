@@ -19,6 +19,7 @@ function Nav() {
   
   }
 
+  /* console.log(location.split("/")[2]) */
   useEffect(() => {
     localStorage.getItem("user") &&
       setUser(JSON.parse(localStorage.getItem("user")));
@@ -36,8 +37,13 @@ function Nav() {
                   className="h-14 me-3 rounded-full m-2"
                   alt="FlowBite Logo"
                 />
-                <span className=" text-blue_dark self-center text-3xl font-semibold whitespace-nowrap te">
-                  {location === "/dashboard" ? "Dashboard" : "FlowBite"}
+                <span className=" text-blue_dark self-center text-2xl font-semibold whitespace-nowrap te">
+                  {
+                    location.split("/")[2] === "dashboard" ? "Dashboard":
+                    location.split("/")[2] === "new-conciliation" ? "Nueva Conciliacion" :  
+                    location.split("/")[2] === "conciliations" ? "Conciliaciones" : 
+                    location.split("/")[2] === "history" ? "Historial" : "ConciliaMax"
+                  }
                 </span>
               </Link>
             </div>

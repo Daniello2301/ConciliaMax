@@ -9,3 +9,13 @@
         src: url(./fonts/Roundo-Regular.ttf) format('ttf');
     }
 }
+
+.active {
+    background-color: #E6E6E7;
+    color: #1F273C;
+}
+
+.active svg {
+    fill: #1F273C;
+    color: #1F273C;
+}

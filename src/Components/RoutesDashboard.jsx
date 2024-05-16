@@ -10,7 +10,7 @@ function RoutesDashboard() {
   return (
     <>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/new-conciliation" element={<NewConciliation />} />
             <Route path="/conciliations" element={<ListConciliations />} />
             <Route path="/history" element={<ListHistory />} />
