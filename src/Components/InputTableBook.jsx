@@ -6,9 +6,7 @@ import { addElementBook } from "../api/book";
 
 const allowedExtensions = ["csv"];
 
-function InputTableBook() {
-  const [dataBook, setDataBook] = useState([]);
-
+function InputTableBook({ setIsDataBookSaved, dataBook, setDataBook, setDataBookSaved }) {
   // It state will contain the error when
   // correct file extension is not used
   const [error, setError] = useState("");
@@ -48,12 +46,9 @@ function InputTableBook() {
     // Initialize a reader which allows user
     // to read any file or blob.
     const reader = new FileReader();
-
-    setLoading(true);
     // Event listener on reader when the file
     // loads, we parse it and set the data.
 
-   
     let parsedData;
     reader.onload = async ({ target }) => {
       const csv = Papa.parse(target?.result, {
@@ -61,46 +56,57 @@ function InputTableBook() {
       });
       parsedData = csv?.data;
 
-      /* parsedData.forEach(async (element) => {
-        let newElement;
-        if (
-          element.fecha ||
-          element.tipo ||
-          element.documento ||
-          element.concepto ||
-          element.valor
-        ) {
-          newElement = {
-            date: element.fecha.split("/").reverse().join("-"),
-            type: element.tipo,
-            documentNumber: element.documento,
-            description: element.concepto,
-            amount: element.valor.split("$")[1],
-          };
-        }
-      }); */
-
-      console.log(parsedData)
-      
+      setDataBook(parsedData);
     };
     reader.readAsText(file);
+  };
+
+  const handleSave = async () => {
+    let dataSaved = [];
+    setLoading(true);
+    if (dataBook) {
+      if (dataBook) {
+        for (const element of dataBook) {
+          if (element.valor === undefined || element.documento === undefined) continue;
     
-    setDataBook(parsedData);
-    console.log(dataBook)
-    /* setDataBook(parsedData); */
-    /* setLoading(false); */
+          let data = {
+            date: element.fecha,
+            documentNumber: element.documento,
+            description: element.concepto,
+            amount: element.valor,
+            type: element.tipo,
+          };
+    
+          try {
+            const res = await addElementBook(data);
+    
+            if (res.status !== 201) {
+              setError("Error al guardar los datos");
+            } else {
+              dataSaved.push(res.data);
+            }
+          } catch (error) {
+            setError("Error al guardar los datos");
+          }
+        }
+
+        setLoading(false);
+      }
+    }
+    setDataBookSaved(dataSaved);
+    setIsDataBookSaved(true);
   };
 
   return (
     <>
-      <div className="relative max-h-[400px] max-w-[600px] px-1 overflow-x-scroll shadow-md flex flex-col bg-gray_light">
+      <div className="relative max-h-[400px] max-w-[700px] px-1 overflow-x-scroll shadow-md flex flex-col bg-gray_light">
         <h1 className="w-full text-center text-2xl my-3 text-green_primary font-semibold">
           Libro Contable
         </h1>
         {error && <div className="text-red-500 text-center">{error}</div>}
 
-        {/* {loading && (
-          <div className=" z-40 fixed top-0 left-0 w-screen h-screen bg-blue_dark bg-opacity-50 flex justify-center items-center">
+        {loading && (
+          <div className="fixed z-40 top-0 left-0 w-screen h-screen bg-blue_dark bg-opacity-50 flex justify-center items-center">
             <div role="status">
               <svg
                 aria-hidden="true"
@@ -121,29 +127,41 @@ function InputTableBook() {
               <span className="sr-only">Loading...</span>
             </div>
           </div>
-        )} */}
+        )}
         <Table data={dataBook} />
         <section className="my-2 flex items-center justify-center gap-4 w-auto">
-          <form>
-            <div className="flex flex-col items-center justify-center">
-              <input
-                className="block w-full text-xs text-gray-900 border border-gray-300 rounded-md cursor-pointer bg-gray-50 "
-                onChange={handleFileChange}
-                id="book_data"
-                type="file"
-              />
-              <div className="mt-1 text-xs text-gray-500 " id="book_data">
-                Verifica que tu archico sea .csv
-              </div>
-            </div>
-          </form>
-          <button
-            type="button"
-            onClick={handleParse}
-            className=" text-gray_light py-2 px-5 bg-blue_dark hover:scale-105 font-medium rounded-md text-xs "
-          >
-            Cargar
-          </button>
+          {!dataBook.length ? (
+            <>
+              <form>
+                <div className="flex flex-col items-center justify-center">
+                  <input
+                    className="block w-full text-xs text-gray-900 border border-gray-300 rounded-md cursor-pointer bg-gray-50 "
+                    onChange={handleFileChange}
+                    id="book_data"
+                    type="file"
+                  />
+                  <div className="mt-1 text-xs text-gray-500 " id="book_data">
+                    Verifica que tu archico sea .csv
+                  </div>
+                </div>
+              </form>
+              <button
+                type="button"
+                onClick={handleParse}
+                className=" text-gray_light py-2 px-5 bg-blue_dark hover:scale-105 font-medium rounded-md text-xs "
+              >
+                Cargar
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              onClick={handleSave}
+              className="text-gray_light py-2 px-5 bg-blue_dark hover:scale-105 font-medium rounded-md text-xs "
+            >
+              Guardar
+            </button>
+          )}
         </section>
       </div>
     </>

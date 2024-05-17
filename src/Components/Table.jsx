@@ -1,22 +1,17 @@
 function Table({ data }) {
-
-  console.log(data)
-  /* if (data ==) return null;
+  if (data.length == 0) return null;
   const rows = Object.keys(data[0]);
 
   const dataTable = data.map((e) => {
-    if (e.valor) {
-      e.valor = e.valor.split("$")[1];
+    if (e) {
+      return e = Object.values(e);
     }
-    return Object.values(e);
-  }); */
-
-
+  });
   return (
     <>
-     {/*  <table
+      <table
         className="m-auto px-4 text-xs        
-        text-left rtl:text-right text-gray-500 "
+        text-left rtl:text-right text-gray-500"
       >
         <thead className="text-xs text-gray_light uppercase bg-blue_dark">
           <tr>
@@ -34,7 +29,7 @@ function Table({ data }) {
           {dataTable.map((e, i) => {
             return (
               <>
-                <tr key={i} className="bg-gray-100 border-b" >
+                <tr key={i} className="bg-gray-100 border-b">
                   <td className="w-4 p-4">
                     <div className="flex items-center">
                       <input
@@ -53,7 +48,7 @@ function Table({ data }) {
 
                   {e.map((el, i) => {
                     return (
-                      <td className="px-6 py-4" key={i}>
+                      <td className="px-6 py-4 text-center" key={i}>
                         {el}
                       </td>
                     );
@@ -63,7 +58,7 @@ function Table({ data }) {
             );
           })}
         </tbody>
-      </table> */}
+      </table>
     </>
   );
 }
