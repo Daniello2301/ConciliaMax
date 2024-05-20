@@ -56,17 +56,17 @@ class Conciliation(models.Model):
         verbose_name = 'Conciliation'
         verbose_name_plural = 'Conciliations'
         ordering = ['date']
-
+ 
 
 class ConciliationHistory(models.Model):
     id = models.AutoField(primary_key=True)
-    date = models.CharField(max_length=50,null=True)
-    status = models.CharField(max_length=50, null=True)
-    description = models.CharField(max_length=100,null=True)
-    ConciliationId = models.ForeignKey(Conciliation, on_delete=models.CASCADE)
+    date = models.CharField(max_length=100,null=True)
+    status = models.CharField(max_length=150, null=True)
+    description = models.CharField(max_length=255,null=True)
+    ConciliationId = models.ForeignKey(Conciliation, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f'{self.id} - {self.date} - {self.status} - {self.description} - {self.ConciliationId}'
+        return f'{self.id} - {self.date} - {self.status} - {self.description}'
     
     class Meta:
         db_table = 'conciliation_history'
