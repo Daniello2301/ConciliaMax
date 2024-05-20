@@ -1,20 +1,25 @@
 import * as Papa from "papaparse";
 import { useState } from "react";
 import Table from "./Table";
+import Swal from "sweetalert2";
 
 import { addRowBank } from "../api/bank";
 
 const allowedExtensions = ["csv"];
 
-function InputTableBank({ setIsDataBankSaved, dataBank, setDataBank, setDataBankSaved }) {
+function InputTableBank({
+  setIsDataBankSaved,
+  dataBank,
+  setDataBank,
+  setDataBankSaved,
+}) {
   // It state will contain the error when
   // correct file extension is not used
   const [error, setError] = useState("");
- 
+
   // It will store the file uploaded by the user
   const [file, setFile] = useState(null);
 
-  
   const [loading, setLoading] = useState(false);
   // This function will be called when
   // the file input changes
@@ -41,7 +46,14 @@ function InputTableBank({ setIsDataBankSaved, dataBank, setDataBank, setDataBank
   const handleParse = () => {
     // If user clicks the parse button without
     // a file we show a error
-    if (!file) return alert("Enter a valid file");
+    if (!file) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, selecciona un archivo",
+      })
+      }
+    //return alert("Enter a valid file");
 
     // Initialize a reader which allows user
     // to read any file or blob.
@@ -67,8 +79,9 @@ function InputTableBank({ setIsDataBankSaved, dataBank, setDataBank, setDataBank
     if (dataBank) {
       if (dataBank) {
         for (const element of dataBank) {
-          if (element.valor === undefined || element.documento === undefined) continue;
-    
+          if (element.valor === undefined || element.documento === undefined)
+            continue;
+
           let data = {
             date: element.fecha,
             documentNumber: element.documento,
@@ -76,10 +89,10 @@ function InputTableBank({ setIsDataBankSaved, dataBank, setDataBank, setDataBank
             amount: element.valor,
             type: element.tipo,
           };
-    
+
           try {
             const res = await addRowBank(data);
-    
+
             if (res.status !== 201) {
               setError("Error al guardar los datos");
             } else {
@@ -104,7 +117,7 @@ function InputTableBank({ setIsDataBankSaved, dataBank, setDataBank, setDataBank
           Extracto Bancario
         </h1>
         {error && <div className="text-red-500 text-center">{error}</div>}
-        
+
         {loading && (
           <div className=" z-40 fixed top-0 left-0 w-screen h-screen bg-blue_dark bg-opacity-50 flex justify-center items-center">
             <div role="status">
@@ -130,9 +143,9 @@ function InputTableBank({ setIsDataBankSaved, dataBank, setDataBank, setDataBank
         )}
 
         <Table data={dataBank} />
-        
+
         <section className="my-2 flex items-center justify-center gap-4 w-auto">
-        {!dataBank.length ? (
+          {!dataBank.length ? (
             <>
               <form>
                 <div className="flex flex-col items-center justify-center">

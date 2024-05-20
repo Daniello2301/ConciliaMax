@@ -1,4 +1,9 @@
 import { useForm } from "react-hook-form";
+import { Swal } from "sweetalert2";
+
+import * as conciliation from "../api/conciliations";
+import * as history from "../api/history";
+import { useState } from "react";
 
 function InputsHeaderConciliation({ isdataSaved, dataBank, dataBook }) {
   const { register, handleSubmit } = useForm();
@@ -7,11 +12,77 @@ function InputsHeaderConciliation({ isdataSaved, dataBank, dataBook }) {
 
   } */
 
-  const createConciliation = handleSubmit((data) => {
+  const [isLoading, setIsLoading] = useState(false);
 
-    for(let ele of dataBank){
-      for(let ele2 of dataBook){
-        if(ele.documentNumber === ele2.documentNumber){
+  const createConciliation = handleSubmit(async (data) => {
+    setIsLoading(true);
+    if (dataBank.length === 0 || dataBook.length === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, sube los archivos de los bancos y libros",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    for (let ele of dataBank) {
+      for (let ele2 of dataBook) {
+        if (
+          dataBank.length > dataBook.length ||
+          dataBank.length < dataBook.length
+        ) {
+          continue;
+        }
+
+        /* if (ele === undefined || ele2 === undefined) {
+          await history.createHistory({
+            date: new Date().toISOString().slice(0, 10),
+            status: "No Conciliado",
+            description: "Conciliacion no hecha, no se encontraron datos",
+            ConciliationId: 0,
+          })
+          .then((resHistory) => {
+            console.log(resHistory);
+          });
+        } */
+
+        if (ele.documentNumber === ele2.documentNumber) {
+          if (ele.amount !== ele2.amount) {
+            let amoutTotal =
+              ele.amount > ele2.amount
+                ? ele.amount - ele2.amount
+                : ele2.amount - ele.amount;
+
+            let newConciliation = {
+              date: data.date,
+              bank: data.bank,
+              accountNumber: data.accountNumber,
+              BookId: ele2.id,
+              BankId: ele.id,
+              amount: amoutTotal,
+            };
+
+            await conciliation
+              .createConciliation(newConciliation)
+              .then(async (res) => {
+                console.log(res);
+
+                if (res.data?.id && res.status == 201) {
+                  await history
+                    .createHistory({
+                      date: new Date().toISOString().slice(0, 10),
+                      status: "pendiende",
+                      description: `Conciliacion pendiente por diferencia en el valor de ${amoutTotal}`,
+                      ConciliationId: res.data?.id,
+                    })
+                    .then((resHistory) => {
+                      console.log(resHistory);
+                    });
+                }
+              });
+          }
+
           let newConciliation = {
             date: data.date,
             bank: data.bank,
@@ -20,25 +91,82 @@ function InputsHeaderConciliation({ isdataSaved, dataBank, dataBook }) {
             BankId: ele.id,
             amount: ele.amount,
           };
+          await conciliation
+            .createConciliation(newConciliation)
+            .then(async (res) => {
+              console.log(res);
 
-          console.log(newConciliation)
-          
+              if (res.data?.id) {
+                if (res.status == 201) {
+                  await history
+                    .createHistory({
+                      date: new Date().toISOString().slice(0, 10),
+                      status: "Conciliado",
+                      description:
+                        "Conciliación de " +
+                        data.bank +
+                        " con el libro, por concepto de " +
+                        ele2.description +
+                        " por un monto de " +
+                        ele.amount,
+                      ConciliationId: res.data?.id || 0,
+                    })
+                    .then((resHistory) => {
+                      console.log(resHistory);
+                    });
+                }
+
+                if (res.status !== 201) {
+                  await history
+                    .createHistory({
+                      date: new Date().toISOString().slice(0, 10),
+                      status: "No Conciliado",
+                      description:
+                        "Conciliación de " +
+                        data.bank +
+                        " con el libro, por concepto de " +
+                        ele2.description +
+                        ", falló, por favor revisar los datos",
+                      ConciliationId: res.data?.id || 0,
+                    })
+                    .then((resHistory) => {
+                      console.log(resHistory);
+                    });
+                }
+              }
+            });
         }
       }
     }
 
-    /* let newConciliation = {
-      date: data.date,
-      bank: data.bank,
-      accountNumber: data.accountNumber,
-    };
-
-    console.log(newConciliation); */
+    setIsLoading(false);
   });
 
   return (
     <>
       <header className="grid grid-cols-4 gap-4 mb-4 justify-center h-20 bg-gray_light rounded-sm">
+        {isLoading && (
+          <div className="fixed z-40 top-0 left-0 w-screen h-screen bg-blue_dark bg-opacity-50 flex justify-center items-center">
+            <div role="status">
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="spinner"
+                className="animate-spin h-20 w-20 text-white"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M256 40c-97 0-176 79-176 176s79 176 176 176 176-79 176-176-79-176-176-176zm0 320c-88.2 0-160-71.8-160-160S167.8 40 256 40s160 71.8 160 160-71.8 160-160 160z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        )}
+
         <section className=" flex flex-col items-center justify-center h-full ">
           <div className="relative z-0 ml-5 mb-1 group">
             <input

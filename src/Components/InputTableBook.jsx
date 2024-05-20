@@ -3,6 +3,7 @@ import { useState } from "react";
 import Table from "./Table";
 
 import { addElementBook } from "../api/book";
+import Swal from "sweetalert2";
 
 const allowedExtensions = ["csv"];
 
@@ -41,7 +42,13 @@ function InputTableBook({ setIsDataBookSaved, dataBook, setDataBook, setDataBook
   const handleParse = () => {
     // If user clicks the parse button without
     // a file we show a error
-    if (!file) return alert("Enter a valid file");
+    if (!file) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, selecciona un archivo",
+      })
+      }
 
     // Initialize a reader which allows user
     // to read any file or blob.
