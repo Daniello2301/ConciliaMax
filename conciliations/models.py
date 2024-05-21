@@ -63,7 +63,7 @@ class ConciliationHistory(models.Model):
     date = models.CharField(max_length=100,null=True)
     status = models.CharField(max_length=150, null=True)
     description = models.CharField(max_length=255,null=True)
-    ConciliationId = models.ForeignKey(Conciliation, on_delete=models.CASCADE, null=True)
+    conciliation = models.IntegerField(null=True)
 
     def __str__(self):
         return f'{self.id} - {self.date} - {self.status} - {self.description}'
