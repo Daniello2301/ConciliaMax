@@ -7,19 +7,14 @@ import InputsHeaderConciliation from "../Components/InputsHeaderConciliation";
 function NewConciliation() {
 
   
-  const [ isDataBookSaved, setIsDataBookSaved ] = useState(true);
-  const [ isDataBankSaved, setIsDataBankSaved ] = useState(true);
+  const [ isDataBookSaved, setIsDataBookSaved ] = useState(false);
+  const [ isDataBankSaved, setIsDataBankSaved ] = useState(false);
 
   const [dataBook, setDataBook] = useState([]);
   const [dataBank, setDataBank] = useState([]);
   
   const [dataBookSaved, setDataBookSaved] = useState([]);
-  const [dataBankSaved, setDataBankSaved] = useState([]);
-
-
-    console.log(dataBookSaved)
-    console.log(dataBankSaved)
-  
+  const [dataBankSaved, setDataBankSaved] = useState([]);  
 
   return (
     <>
