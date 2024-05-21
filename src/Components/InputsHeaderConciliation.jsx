@@ -1,18 +1,24 @@
 import { useForm } from "react-hook-form";
-import { Swal } from "sweetalert2";
+import Swal from "sweetalert2";
 
 import * as conciliation from "../api/conciliations";
 import * as history from "../api/history";
 import { useState } from "react";
 
-function InputsHeaderConciliation({ isdataSaved, dataBank, dataBook }) {
+function InputsHeaderConciliation({
+  isdataSaved,
+  dataBank,
+  dataBook,
+  setDataBank,
+  setDataBook
+}) {
   const { register, handleSubmit } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
+
   const createConciliation = handleSubmit(async (data) => {
-    
     if (dataBank.length === 0 || dataBook.length === 0) {
-      Swal.fire({
+      await Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Por favor, sube los archivos de los bancos y libros",
@@ -22,9 +28,32 @@ function InputsHeaderConciliation({ isdataSaved, dataBank, dataBook }) {
     }
 
     if (dataBook.length > dataBank.length) {
-      arrayValidate(dataBook, dataBank, data);
+      await arrayValidate(dataBook, dataBank, data).then(() => {
+        if (!isLoading) {
+          Swal.fire({
+            icon: "success",
+            title: "Conciliación realizada",
+            text: "La conciliación se ha realizado con éxito, revisa el historial para más detalles",
+          });
+        }
+        setDataBank([]);
+        setDataBook([]);
+      });
+
+      return;
     } else if (dataBank.length > dataBook.length) {
-      arrayValidate(dataBank, dataBook, data);
+      await arrayValidate(dataBank, dataBook, data).then(() => {
+        if (!isLoading) {
+          Swal.fire({
+            icon: "success",
+            title: "Conciliación realizada",
+            text: "La conciliación se ha realizado con éxito, revisa el historial para más detalles",
+          });
+        }
+        setDataBank([]);
+        setDataBook([]);
+      });
+      return;
     }
   });
 
@@ -57,19 +86,16 @@ function InputsHeaderConciliation({ isdataSaved, dataBank, dataBook }) {
             await conciliation
               .createConciliation(newConciliation)
               .then(async (res) => {
-                console.log(ele2.id, ele.id)
-                console.log(res)
+                /* console.log(res.data) */
                 if (res.data?.id && res.status == 201) {
-                  await history
-                    .createHistory({
-                      date: new Date().toISOString().slice(0, 10),
-                      status: "pendiende",
-                      description: `Conciliacion pendiente por diferencia en el valor de ${amoutTotal}`,
-                      ConciliationId: res.data?.id,
-                    })
+                  await history.createHistory({
+                    date: new Date().toISOString().slice(0, 10),
+                    status: "Pendiende",
+                    description: `Conciliacion pendiente por diferencia en el valor de ${amoutTotal}`,
+                    conciliation: res.data?.id || 0,
+                  });
                 }
-              })
-              ;
+              });
 
             isPresent = true;
             /* Ya se hizo con el elemento */
@@ -87,37 +113,34 @@ function InputsHeaderConciliation({ isdataSaved, dataBank, dataBook }) {
             await conciliation
               .createConciliation(newConciliation)
               .then(async (res) => {
-                console.log(res)
                 if (res.data?.id) {
                   if (res.status == 201) {
-                    await history
-                      .createHistory({
-                        date: new Date().toISOString().slice(0, 10),
-                        status: "Conciliado",
-                        description:
-                          "Conciliación de " +
-                          data.bank +
-                          " con el libro, por concepto de " +
-                          ele2.description +
-                          " por un monto de " +
-                          ele.amount,
-                        ConciliationId: res.data?.id || 0,
-                      })
+                    await history.createHistory({
+                      date: new Date().toISOString().slice(0, 10),
+                      status: "Conciliado",
+                      description:
+                        "Conciliación de " +
+                        data.bank +
+                        " con el libro, por concepto de " +
+                        ele2.description +
+                        " por un monto de " +
+                        ele.amount,
+                      conciliation: res.data?.id || 0,
+                    });
                   }
 
                   if (res.status !== 201) {
-                    await history
-                      .createHistory({
-                        date: new Date().toISOString().slice(0, 10),
-                        status: "No Conciliado",
-                        description:
-                          "Conciliación de " +
-                          data.bank +
-                          " con el libro, por concepto de " +
-                          ele2.description +
-                          ", falló, por favor revisar los datos",
-                        ConciliationId: res.data?.id || 0,
-                      })
+                    await history.createHistory({
+                      date: new Date().toISOString().slice(0, 10),
+                      status: "No Conciliado",
+                      description:
+                        "Conciliación de " +
+                        data.bank +
+                        " con el libro, por concepto de " +
+                        ele2.description +
+                        ", falló, por favor revisar los datos",
+                      conciliation: res.data?.id || 0,
+                    });
                   }
                 }
               });
@@ -127,19 +150,19 @@ function InputsHeaderConciliation({ isdataSaved, dataBank, dataBook }) {
       }
 
       if (!isPresent) {
-        await history
-          .createHistory({
-            date: new Date().toISOString().slice(0, 10),
-            status: "No Conciliado",
-            description: "No se encontró conciliación para el documento " + ele.documentNumber,
-            ConciliationId: 0,
-          })
+        /* console.log(ele) */
+        await history.createHistory({
+          date: new Date().toISOString().slice(0, 10),
+          status: "No Conciliado",
+          description:
+            "No se encontró conciliación para el documento " +
+            ele.documentNumber,
+          conciliation: 0,
+        });
       }
     }
-
     setIsLoading(false);
   };
-
   return (
     <>
       <header className="grid grid-cols-4 gap-4 mb-4 justify-center h-20 bg-gray_light rounded-sm">

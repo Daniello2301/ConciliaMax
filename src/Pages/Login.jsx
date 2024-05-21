@@ -22,8 +22,6 @@ function Login() {
 
     const res = await login(data);
 
-    console.log(res)
-
 
 
     if (res.status === 200) {

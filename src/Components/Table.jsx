@@ -1,5 +1,9 @@
 function Table({ data }) {
+
+  if(!data) return null;
+
   if (data.length == 0) return null;
+
   const rows = Object.keys(data[0]);
 
   const dataTable = data.map((e) => {
@@ -13,7 +17,7 @@ function Table({ data }) {
         className="m-auto px-4 text-xs        
         text-left rtl:text-right text-gray-500"
       >
-        <thead className="text-xs text-gray_light uppercase bg-blue_dark">
+        <thead className="text-md text-center text-gray_light uppercase bg-blue_dark">
           <tr>
             <th scope="col" className="p-4"></th>
             {rows.map((e, i) => {
@@ -48,7 +52,7 @@ function Table({ data }) {
 
                   {e.map((el, i) => {
                     return (
-                      <td className="px-6 py-4 text-center" key={i}>
+                      <td className="px-6 py-4 text-center text-sm" key={i}>
                         {el}
                       </td>
                     );

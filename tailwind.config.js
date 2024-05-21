@@ -8,9 +8,13 @@ export default {
   theme: {
     extend: {},
     colors:{
+      blue_light: "#82ADD8",
       blue_dark: "#1F273C",
+      gren_light: "#97DEB0",
       green_primary: "#3DAA64",
+      green_dark: "#297645",
       gray_light: "#E6E6E7",
+      gray_dark: "#878789",
     },
     fontFamily:{
       'roundo': "Roundo",

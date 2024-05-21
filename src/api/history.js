@@ -1,6 +1,6 @@
 import { axiosInstance } from "./axios";
 
-export default async function getHistory() {
+export const getHistory = async () =>{
   try {
     const res = await axiosInstance.get("/api/conciliation_history/");
     return res;
